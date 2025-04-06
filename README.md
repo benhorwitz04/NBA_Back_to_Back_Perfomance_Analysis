@@ -38,6 +38,11 @@ I wanted to explore how the performance of the second game of a back-to-back con
 
 ![percentage_chart](https://github.com/user-attachments/assets/ba15f820-1e08-4093-9fe3-56c22f00ef5d)
 
+6. **best__preforming_teams**: A table showing the top 5 teams in the NBA with the best overall records on the second day of a back-to-back contest.
+   
+   <img width="370" alt="image" src="https://github.com/user-attachments/assets/044d60f3-e44e-4fd9-9d30-5ac78c81b06f" />
+
+
 ## Data Analysis
 
 - **Statistical Analysis**: The performance data for each team was compared to their season averages, with a focus on stats that are considered **positive when higher** (e.g., points scored, field goal percentage) and **negative when higher** (e.g., turnovers, personal fouls).
@@ -73,4 +78,3 @@ The queries used in the analysis can be found in the in the folder. These querie
 
 - **Extended Analysis to Hobart Basketball**: Perform an analysis over multiple seasons to understand how trends might change for college program.
 - **Player-Level Insights**: Dive deeper into individual player performance on the second day of back-to-back games to identify outliers.
-- **Additional Analysis**: Look at wins and which teams are able to secure the best record from second day back-to-back contests.
