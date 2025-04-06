@@ -74,6 +74,8 @@ The queries used in the analysis can be found in the in the folder. These querie
 
 **Negative Performance in Defensive Categories**: Defensive statistics showed a clear decline, with **defensive rebounds** (-0.29), **blocks** (-0.13), and **steals** (-0.07) all decreasing. Blocks, in particular, were most affected, dropping by -2.53% compared to regular season averages.
 
+**Winning Teams --> Winning Seasons**: Team's that performed well in back-to-back games, had sucess throughout the whole season. The only team in the top 5 for wins to not make the 2023-2024 playoffs was the Golden State Warriors. The Boston Celtics, which finished at the top in both **wins (12) and win percentage (85.7%)** would end up winning the NBA finals later that year.
+
 ## Next Steps / Future Work
 
 - **Extended Analysis to Hobart Basketball**: Perform an analysis over multiple seasons to understand how trends might change for college program.
