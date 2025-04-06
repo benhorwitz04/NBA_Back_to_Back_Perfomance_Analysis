@@ -1,0 +1,43 @@
+-- Question: What team's had the best overall record on the second day when competing in back-to-back contests? 
+-- Additonally, what was the overall record for all combined teams across the NBA?
+
+
+-- Create a table of second games in back-to-backs, including win/loss
+WITH second_day_games AS (
+    SELECT 
+        t1.TEAM_NAME,
+        t1.GAME_DATE,
+        t1.WL,  -- Win/Loss result
+        LAG(t1.GAME_DATE) OVER (PARTITION BY t1.TEAM_NAME ORDER BY t1.GAME_DATE) AS prev_game_date
+    FROM team_game_stats t1
+)
+SELECT
+    TEAM_NAME,
+    COUNT(*) FILTER (WHERE WL = 'W') AS b2b_wins,
+    COUNT(*) FILTER (WHERE WL = 'L') AS b2b_losses,
+    COUNT(*) AS total_b2b_games,
+    ROUND(COUNT(*) FILTER (WHERE WL = 'W') * 1.0 / COUNT(*), 3) AS win_pct
+FROM second_day_games
+WHERE prev_game_date IS NOT NULL
+  AND AGE(GAME_DATE, prev_game_date) = INTERVAL '1 day'
+GROUP BY TEAM_NAME
+ORDER BY b2b_wins DESC;
+
+
+-- Total wins and losses in back-to-back games across all teams
+WITH second_day_games AS (
+    SELECT 
+        t1.TEAM_NAME,
+        t1.GAME_DATE,
+        t1.WL,
+        LAG(t1.GAME_DATE) OVER (PARTITION BY t1.TEAM_NAME ORDER BY t1.GAME_DATE) AS prev_game_date
+    FROM team_game_stats t1
+)
+SELECT
+    COUNT(*) FILTER (WHERE WL = 'W') AS total_b2b_wins,
+    COUNT(*) FILTER (WHERE WL = 'L') AS total_b2b_losses,
+    COUNT(*) AS total_b2b_games,
+    ROUND(COUNT(*) FILTER (WHERE WL = 'W') * 1.0 / COUNT(*), 3) AS win_pct
+FROM second_day_games
+WHERE prev_game_date IS NOT NULL
+  AND AGE(GAME_DATE, prev_game_date) = INTERVAL '1 day';
