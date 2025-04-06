@@ -2,7 +2,7 @@
 
 ## Overview
 
-This project analyzes how NBA teams perform on the second day of back-to-back games compared to their averages during 2023-2024 season. The analysis includes various key statistics such as points scored, turnovers, field goals made, rebounds, and more. By comparing these metrics, we aim to identify how fatigue affects team performance and determine if there are consistent patterns across teams.
+This project analyzes how NBA teams perform on the second day of back-to-back games compared to their averages during the 2023-2024 season. The analysis includes various key statistics such as points scored, turnovers, field goals made, rebounds, and more. By comparing these metrics, we aim to identify how fatigue affects team performance and determine if there are consistent patterns across teams.
 
 ## Background
 
