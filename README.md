@@ -6,9 +6,10 @@ This project analyzes how NBA teams perform on the second day of back-to-back ga
 
 ## Background
 
-This project was initially constructed as a way to dive deeper into the world of data analytics. For the past five years, I've worked as a basketball coach at Hobart College. One of the unique aspects of the Liberty League conference we compete in is the schedule for our conference games. We play 18 games each year, with 16 of those contests being scheduled as back-to-back competitions for leauge play. This is a rare scheduling decision in college basketball, as many other conferences decide to split up games by at least 1 or more days.
+This project was initially constructed as a way to dive deeper into the world of data analytics. For the past five years, I've worked as a basketball coach at Hobart College. One of the unique aspects of the Liberty League conference we compete in is the schedule for our conference games. We play 18 games each year, with 16 of those contests being scheduled as back-to-back competitions for leauge play. This is a rare scheduling decision in college basketball, as many other conferences decide to split up games by at least 1 or more days. 
 
-I wanted to explore how the performance of the second game of a back-to-back contest compares to the rest of the season averages. The NBA presents a much larger scale of data to pull from and provides a glimpse into how team performance is affected by scheduling. I used data from 2023-2024 season, as it is the most recently completed NBA regular season. I did not include playoff games, and focused on the typical 82 regular game season. Pleaese note that not all teams have the same amount of back-to-back games scheduled duirng there season.
+I wanted to explore how the performance of the second game of a back-to-back contest compares to the rest of the season averages. The NBA presents a much larger scale of data to pull from and provides a glimpse into how team performance is affected by scheduling. I used data from the 2023-2024 season, as it is the most recently completed NBA regular season. I did not include playoff games, and focused on the typical 82 regular game season. 
+*Pleaese note that not all teams have the same amount of back-to-back games scheduled duirng there season.
 
 ## Project Structure
 
