@@ -25,13 +25,13 @@ I wanted to explore how the performance of the second game of a back-to-back con
 
 2. **team_back_to_back_avgs**: A table showing the average performance for each team on the second day of back-to-back contests.
 
-| team_name |	games_played |	avg_fgm |	avg_fga |	avg_fg_pct |	avg_tov |
-   |------| -------- | --------   | --------  | --------| -------- |
-| Atlanta Hawks |	15 |	42.60 |	92.47 |	0.463 |	12.27 |
-| Boston Celtics |	14 |	45.36 |	91.36 |	0.497 |	10.14 |
-| Brooklyn Nets |	14 |	39.50 |	89.07 |	0.444 |	11.79 |
-| Charlotte Hornets |	15 |	41.40  |	87.07 |	0.477 |	12.00 |
-| Chicago Bulls |	14	 | 41.50 |	91.21 |	0.457 |	10.93 |
+   | team_name |	games_played |	avg_fgm |	avg_fga |	avg_fg_pct |	avg_tov |
+      |------| -------- | --------   | --------  | --------| -------- |
+   | Atlanta Hawks |	15 |	42.60 |	92.47 |	0.463 |	12.27 |
+   | Boston Celtics |	14 |	45.36 |	91.36 |	0.497 |	10.14 |
+   | Brooklyn Nets |	14 |	39.50 |	89.07 |	0.444 |	11.79 |
+   | Charlotte Hornets |	15 |	41.40  |	87.07 |	0.477 |	12.00 |
+   | Chicago Bulls |	14	 | 41.50 |	91.21 |	0.457 |	10.93 |
 
 
 3. **team_back_to_back_diffs**: A table showing us season averages minus back-to-back second-day averages.
