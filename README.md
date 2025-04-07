@@ -22,28 +22,36 @@ I wanted to explore how the performance of the second game of a back-to-back con
 ## Key Tables Created
 
 1. **team_season_averages**: A table containing the season averages for each team in various statistics (points, rebounds, turnovers, etc.).
+
 2. **team_back_to_back_avgs**: A table showing the average performance for each team on the second day of back-to-back contests.
 
-   <img width="398" alt="image" src="https://github.com/user-attachments/assets/120c90f5-5865-43be-b63d-297dd597accb" />
+| team_name |	games_played |	avg_fgm |	avg_fga |	avg_fg_pct |	avg_tov |
+   |------| -------- | --------   | --------  | --------| -------- |
+| Atlanta Hawks |	15 |	42.60 |	92.47 |	0.463 |	12.27 |
+| Boston Celtics |	14 |	45.36 |	91.36 |	0.497 |	10.14 |
+| Brooklyn Nets |	14 |	39.50 |	89.07 |	0.444 |	11.79 |
+| Charlotte Hornets |	15 |	41.40  |	87.07 |	0.477 |	12.00 |
+| Chicago Bulls |	14	 | 41.50 |	91.21 |	0.457 |	10.93 |
+
 
 3. **team_back_to_back_diffs**: A table showing us season averages minus back-to-back second-day averages.
 
    |team | fgm_diff |	fga_diff |	fg_pct_diff |	pts_diff	|tov_diff |
    |------| -------- | --------   | --------  | --------| -------- |
-   | Atlanta Hawk | 0.44 |	0.02 |	0.003	| 2.66	| 0.49 |
+   | Atlanta Hawks | 0.44 |	0.02 |	0.003	| 2.66	| 0.49 |
    |Boston Celtics | -1.45 |	-1.16 |	-0.009 |	-2.86 |	1.13 |
    | Brooklyn Nets | 1.16 |	0.04 |	0.013 |	3.87 |	0.53 |
    | Charlotte Hornets	| -1.39 |	-0.08 |	-0.016 |	-0.54 | 0.99 |
    | Chicago Bulls	| 0.55 |	-1.71 |	0.014 |	0.06 |	0.74 |
 
-6. **deviation__summary**: A table highlighting the largest deviations in performance across teams, focusing on both positive and negative performance changes.
+5. **deviation__summary**: A table highlighting the largest deviations in performance across teams, focusing on both positive and negative performance changes.
 
 ![b2b_deviation_magnitude_plot_fixed](https://github.com/user-attachments/assets/32345c47-ece1-4d82-bc44-62fa149f6ee9)
 
-5. **percentage_summary**: A pie chart focusing on the top 7 categories based on percentage change.
+6. **percentage_summary**: A pie chart focusing on the top 7 categories based on percentage change.
 
 
-6. **best__preforming_teams**: A table showing the top 5 teams in the NBA with the best overall records on the second day of a back-to-back contest.
+7. **best__preforming_teams**: A table showing the top 5 teams in the NBA with the best overall records on the second day of a back-to-back contest.
 
    <img width="419" alt="image" src="https://github.com/user-attachments/assets/49c99120-a087-4d40-beaf-9657541a0e9e" />
 
