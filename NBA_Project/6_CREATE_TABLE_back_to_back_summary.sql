@@ -61,112 +61,58 @@ WITH diffs AS (
     FROM team_back_to_back_diffs
 )
 
-SELECT 'fgm' AS stat, fgm AS avg_diff,
-    CASE WHEN fgm > 0 THEN 'Better'
-         WHEN fgm < 0 THEN 'Worse'
-         ELSE 'No Change' END AS impact
-FROM diffs
+SELECT
+    stat,
+    avg_diff,
+    CASE
+        WHEN stat IN ('tov', 'pf') THEN  -- Special handling for TOV and PF
+            CASE
+                WHEN avg_diff < 0 THEN 'Better'  -- Lower turnovers/fouls are better
+                WHEN avg_diff > 0 THEN 'Worse'  -- Higher turnovers/fouls are worse
+                ELSE 'No Change'
+            END
+        ELSE  -- General case for other statistics
+            CASE
+                WHEN avg_diff > 0 THEN 'Better'
+                WHEN avg_diff < 0 THEN 'Worse'
+                ELSE 'No Change'
+            END
+    END AS impact
+FROM (
+    SELECT 'fgm' AS stat, fgm AS avg_diff FROM diffs
+    UNION ALL
+    SELECT 'fga', fga FROM diffs
+    UNION ALL
+    SELECT 'fg_pct', fg_pct FROM diffs
+    UNION ALL
+    SELECT 'fg3m', fg3m FROM diffs
+    UNION ALL
+    SELECT 'fg3a', fg3a FROM diffs
+    UNION ALL
+    SELECT 'fg3_pct', fg3_pct FROM diffs
+    UNION ALL
+    SELECT 'ftm', ftm FROM diffs
+    UNION ALL
+    SELECT 'fta', fta FROM diffs
+    UNION ALL
+    SELECT 'ft_pct', ft_pct FROM diffs
+    UNION ALL
+    SELECT 'oreb', oreb FROM diffs
+    UNION ALL
+    SELECT 'dreb', dreb FROM diffs
+    UNION ALL
+    SELECT 'reb', reb FROM diffs
+    UNION ALL
+    SELECT 'ast', ast FROM diffs
+    UNION ALL
+    SELECT 'stl', stl FROM diffs
+    UNION ALL
+    SELECT 'blk', blk FROM diffs
+    UNION ALL
+    SELECT 'tov', tov FROM diffs
+    UNION ALL
+    SELECT 'pf', pf FROM diffs
+    UNION ALL
+    SELECT 'pts', pts FROM diffs
+) AS summary;
 
-UNION ALL SELECT 'fga', fga,
-    CASE WHEN fga > 0 THEN 'Better'
-         WHEN fga < 0 THEN 'Worse'
-         ELSE 'No Change' END
-FROM diffs
-
-UNION ALL SELECT 'fg_pct', fg_pct,
-    CASE WHEN fg_pct > 0 THEN 'Better'
-         WHEN fg_pct < 0 THEN 'Worse'
-         ELSE 'No Change' END
-FROM diffs
-
-UNION ALL SELECT 'fg3m', fg3m,
-    CASE WHEN fg3m > 0 THEN 'Better'
-         WHEN fg3m < 0 THEN 'Worse'
-         ELSE 'No Change' END
-FROM diffs
-
-UNION ALL SELECT 'fg3a', fg3a,
-    CASE WHEN fg3a > 0 THEN 'Better'
-         WHEN fg3a < 0 THEN 'Worse'
-         ELSE 'No Change' END
-FROM diffs
-
-UNION ALL SELECT 'fg3_pct', fg3_pct,
-    CASE WHEN fg3_pct > 0 THEN 'Better'
-         WHEN fg3_pct < 0 THEN 'Worse'
-         ELSE 'No Change' END
-FROM diffs
-
-UNION ALL SELECT 'ftm', ftm,
-    CASE WHEN ftm > 0 THEN 'Better'
-         WHEN ftm < 0 THEN 'Worse'
-         ELSE 'No Change' END
-FROM diffs
-
-UNION ALL SELECT 'fta', fta,
-    CASE WHEN fta > 0 THEN 'Better'
-         WHEN fta < 0 THEN 'Worse'
-         ELSE 'No Change' END
-FROM diffs
-
-UNION ALL SELECT 'ft_pct', ft_pct,
-    CASE WHEN ft_pct > 0 THEN 'Better'
-         WHEN ft_pct < 0 THEN 'Worse'
-         ELSE 'No Change' END
-FROM diffs
-
-UNION ALL SELECT 'oreb', oreb,
-    CASE WHEN oreb > 0 THEN 'Better'
-         WHEN oreb < 0 THEN 'Worse'
-         ELSE 'No Change' END
-FROM diffs
-
-UNION ALL SELECT 'dreb', dreb,
-    CASE WHEN dreb > 0 THEN 'Better'
-         WHEN dreb < 0 THEN 'Worse'
-         ELSE 'No Change' END
-FROM diffs
-
-UNION ALL SELECT 'reb', reb,
-    CASE WHEN reb > 0 THEN 'Better'
-         WHEN reb < 0 THEN 'Worse'
-         ELSE 'No Change' END
-FROM diffs
-
-UNION ALL SELECT 'ast', ast,
-    CASE WHEN ast > 0 THEN 'Better'
-         WHEN ast < 0 THEN 'Worse'
-         ELSE 'No Change' END
-FROM diffs
-
-UNION ALL SELECT 'stl', stl,
-    CASE WHEN stl > 0 THEN 'Better'
-         WHEN stl < 0 THEN 'Worse'
-         ELSE 'No Change' END
-FROM diffs
-
-UNION ALL SELECT 'blk', blk,
-    CASE WHEN blk > 0 THEN 'Better'
-         WHEN blk < 0 THEN 'Worse'
-         ELSE 'No Change' END
-FROM diffs
-
--- Reversed logic for TOV: lower is better
-UNION ALL SELECT 'tov', tov,
-    CASE WHEN tov < 0 THEN 'Better'
-         WHEN tov > 0 THEN 'Worse'
-         ELSE 'No Change' END
-FROM diffs
-
--- Reversed logic for PF: lower is better
-UNION ALL SELECT 'pf', pf,
-    CASE WHEN pf < 0 THEN 'Better'
-         WHEN pf > 0 THEN 'Worse'
-         ELSE 'No Change' END
-FROM diffs
-
-UNION ALL SELECT 'pts', pts,
-    CASE WHEN pts > 0 THEN 'Better'
-         WHEN pts < 0 THEN 'Worse'
-         ELSE 'No Change' END
-FROM diffs;
