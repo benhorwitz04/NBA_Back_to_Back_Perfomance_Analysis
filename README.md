@@ -16,7 +16,7 @@ I wanted to explore how the performance of the second game of a back-to-back con
 - **data**: Contains raw data files, including team statistics and game-by-game performance data.
 - **PostgreSQL:** The chosen database management system, ideal for handling the job posting data.
 - **python**: Python scripts for scraping data from nba.api.stats were executed on VS Code (an open-source, and highly customizable code editor developed by Microsoft)
-- **sql**: SQL scripts for creating and querying databases to provide answers and insights to our questions.
+- **sql**: SQL scripts for creating and querying databases to provide answers and insights to our questions. *this was done with assistance from ChatGPT.
 - **results**: Final analysis, including summary tables and queries published here on GitHub.
 - **README.md**: The readme file you are currently reading!
 
@@ -58,7 +58,7 @@ Here we are able to create our 18 statistical categories for each team, and use 
 
 2. **Back to Back Season Averages**:
 
-The next phase of this process was to find our comparison of stats A.K.A the averages of all the back-to-back contests. With the help of Chat GPT, I was able to put together a query that could seperate the games based on the date they were played.
+The next phase of this process was to find our comparison of stats A.K.A the averages of all the back-to-back contests. I was able to put together a query that could seperate the games based on the date they were played.
 
 The key part of the code that allows it to retrieve data from different dates (specifically consecutive dates) lies in the use of:
 
@@ -166,8 +166,7 @@ JOIN team_back_to_back_averages b ON s.TEAM_NAME = b.TEAM_NAME;
 * Positive value → teams performed better on second day.
 * Negative value → teams performed worse on second day.
 
-**One of the main fucntions being utilized here is:**
-**UNION ALL** - Combines results from multiple SELECT statements into one result set. This was we can start to analyze the changes as either "better" in second game, or "worse".
+One of the main fucntions being utilized here is **UNION ALL** - This combines results from multiple SELECT statements into one result set. This was we can start to analyze the changes as either "better" in second game, or "worse".
 
 ```sql
 CREATE TABLE team_back_to_back_avg_diffs_summary AS
@@ -254,17 +253,58 @@ FROM (
 
 *A table highlighting the largest deviations in performance across teams, focusing on both positive and negative performance changes.*
 
-
 5. **percentage_summary**: Although we area able to get the devation of each category in the step above, I thought it would insightful to get the perctange change across the statistical categories as well. By getting the percentage, we can track which category had the highest change compared against it's season average.
  
 ![percentage_chart](https://github.com/user-attachments/assets/b6761b5e-4c25-4455-96df-d534b5fd3786)
 
 A pie chart focusing on the top 7 categories based on percentage change.
 
-6. **best__preforming_teams**: A table showing the top 5 teams in the NBA with the best overall records on the second day of a back-to-back contest.
+6. **Best Preforming Teams**: Lastly, I wanted to see if there was a common theme amogst the better preforming teams and how they faired across the rest of the regular season. Similarly to step 2, the **LAG()** function was utilized to help sepearte back-to-back games from the rest of the season. The focus of this query was simply wins and losses accumulated.
+
+```sql
+WITH second_day_games AS (
+    SELECT 
+        t1.TEAM_NAME,
+        t1.GAME_DATE,
+        t1.WL,  -- Win/Loss result
+        LAG(t1.GAME_DATE) OVER (PARTITION BY t1.TEAM_NAME ORDER BY t1.GAME_DATE) AS prev_game_date
+    FROM team_game_stats t1
+)
+SELECT
+    TEAM_NAME,
+    COUNT(*) FILTER (WHERE WL = 'W') AS b2b_wins,
+    COUNT(*) FILTER (WHERE WL = 'L') AS b2b_losses,
+    COUNT(*) AS total_b2b_games,
+    ROUND(COUNT(*) FILTER (WHERE WL = 'W') * 1.0 / COUNT(*), 3) AS win_pct
+FROM second_day_games
+WHERE prev_game_date IS NOT NULL
+  AND AGE(GAME_DATE, prev_game_date) = INTERVAL '1 day'
+GROUP BY TEAM_NAME
+ORDER BY b2b_wins DESC;
+
+
+-- Total wins and losses in back-to-back games across all teams
+WITH second_day_games AS (
+    SELECT 
+        t1.TEAM_NAME,
+        t1.GAME_DATE,
+        t1.WL,
+        LAG(t1.GAME_DATE) OVER (PARTITION BY t1.TEAM_NAME ORDER BY t1.GAME_DATE) AS prev_game_date
+    FROM team_game_stats t1
+)
+SELECT
+    COUNT(*) FILTER (WHERE WL = 'W') AS total_b2b_wins,
+    COUNT(*) FILTER (WHERE WL = 'L') AS total_b2b_losses,
+    COUNT(*) AS total_b2b_games,
+    ROUND(COUNT(*) FILTER (WHERE WL = 'W') * 1.0 / COUNT(*), 3) AS win_pct
+FROM second_day_games
+WHERE prev_game_date IS NOT NULL
+  AND AGE(GAME_DATE, prev_game_date) = INTERVAL '1 day';
+```
 
    <img width="419" alt="image" src="https://github.com/user-attachments/assets/49c99120-a087-4d40-beaf-9657541a0e9e" />
 
+*A table showing the top 5 teams in the NBA with the best overall records on the second day of a back-to-back contest.*
 
 # Data Analysis
 
