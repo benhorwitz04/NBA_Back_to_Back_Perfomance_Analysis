@@ -49,7 +49,8 @@ I wanted to explore how the performance of the second game of a back-to-back con
 ![b2b_deviation_magnitude_plot_fixed](https://github.com/user-attachments/assets/32345c47-ece1-4d82-bc44-62fa149f6ee9)
 
 6. **percentage_summary**: A pie chart focusing on the top 7 categories based on percentage change.
-
+ 
+![percentage_chart](https://github.com/user-attachments/assets/b6761b5e-4c25-4455-96df-d534b5fd3786)
 
 7. **best__preforming_teams**: A table showing the top 5 teams in the NBA with the best overall records on the second day of a back-to-back contest.
 
