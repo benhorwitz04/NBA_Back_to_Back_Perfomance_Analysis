@@ -1,25 +1,26 @@
 # NBA Back-to-Back Game Performance Analysis
 
-## Overview
+# Overview
 
 This project analyzes how NBA teams perform on the second day of back-to-back games compared to their averages during the 2023-2024 season. The analysis includes various key statistics such as points scored, turnovers, field goals made, rebounds, and more. By comparing these metrics, we aim to identify how fatigue affects team performance and determine if there are consistent patterns across teams.
 
-## Background
+# Background
 
 This project was initially constructed as a way to dive deeper into the world of data analytics. For the past five years, I've worked as a basketball coach at Hobart College. One of the unique aspects of the Liberty League conference we compete in is the schedule for our conference games. We play 18 games each year, with 16 of those contests being scheduled as back-to-back competitions for leauge play. This is a rare scheduling decision in college basketball, as many other conferences decide to split up games by at least 1 or more days. 
 
 I wanted to explore how the performance of the second game of a back-to-back contest compares to the rest of the season averages. The NBA presents a much larger scale of data to pull from and provides a glimpse into how team performance is affected by scheduling. I used data from the 2023-2024 season, as it is the most recently completed NBA regular season. I did not include playoff games, and focused on the typical 82 regular game season. 
 *Pleaese note that not all teams have the same amount of back-to-back games scheduled duirng there season.
 
-## Project Structure
+# Tools I Used & Project Structure
 
-- **data/**: Contains raw data files, including team statistics and game-by-game performance data. Create the database on pgAdmin4 (a popular, open-source, graphical management tool for PostgreSQL).
-- **python/**: Python scripts for scraping data from nba.api.stats were executed on VS Code (an open-source, and highly customizable code editor developed by Microsoft)
-- **sql/**: SQL scripts for creating and querying databases.
-- **results/**: Final analysis, including summary tables and queries published here on GitHub.
+- **data**: Contains raw data files, including team statistics and game-by-game performance data.
+- **PostgreSQL:** The chosen database management system, ideal for handling the job posting data.
+- **python**: Python scripts for scraping data from nba.api.stats were executed on VS Code (an open-source, and highly customizable code editor developed by Microsoft)
+- **sql**: SQL scripts for creating and querying databases to provide answers and insights to our questions.
+- **results**: Final analysis, including summary tables and queries published here on GitHub.
 - **README.md**: The readme file you are currently reading!
 
-## Key Tables Created
+# Key Tables Created
 
 1. **team_season_averages**: A table containing the season averages for each team in various statistics (points, rebounds, turnovers, etc.).
 
@@ -57,14 +58,13 @@ I wanted to explore how the performance of the second game of a back-to-back con
    <img width="419" alt="image" src="https://github.com/user-attachments/assets/49c99120-a087-4d40-beaf-9657541a0e9e" />
 
 
-
-## Data Analysis
+# Data Analysis
 
 - **Statistical Analysis**: The performance data for each team was compared to their season averages, with a focus on stats that are considered **positive when higher** (e.g., points scored, field goal percentage) and **negative when higher** (e.g., turnovers, personal fouls).
 - **Deviation Calculation**: The difference between a team’s performance on the second day of back-to-back games and their season average was computed to determine how each team’s performance changes under fatigue/scheduling.
 - **Key Findings**: The analysis identified which stats are most affected by fatigue and how different teams generally respond to the demands of back-to-back scheduling.
 
-## How to Use
+# How to Use
 
 ### 1. **Set up the database:**
 The SQL scripts provided create the necessary tables to analyze the data. Run the scripts in your pgAdmin4 database to generate the required tables.
@@ -78,7 +78,7 @@ The queries used in the analysis can be found in the in the folder. These querie
 - Compare season averages to performance on the second day of back-to-back games.
 - Calculate the deviation for each statistic and find which teams show the most noticeable differences in performance.
 
-## Insights & Analysis
+# Insights & Analysis
 
 ### Key Findings
 **Impact of Fatigue**: As expected, teams tend to show a decline in many performance metrics, such as points scored and rebounds, on the second day of back-to-back games. Points scored had the largest deviation from the season average (-0.98), more than twice the deviation of the next closest category.
@@ -91,7 +91,7 @@ The queries used in the analysis can be found in the in the folder. These querie
 
 **Winning Teams --> Winning Seasons**: Team's that performed well in back-to-back games, had sucess throughout the whole season. The only team in the top 5 for wins to not make the 2023-2024 playoffs was the Golden State Warriors. The Boston Celtics, which finished at the top in both **wins (12) and win percentage (85.7%)** would end up winning the NBA finals later that year.
 
-## Next Steps / Future Work
+# Next Steps / Future Work
 
 - **Extended Analysis to Hobart Basketball**: Perform an analysis over multiple seasons to understand how trends might change for college program.
 - **Player-Level Insights**: Dive deeper into individual player performance on the second day of back-to-back games to identify outliers.
