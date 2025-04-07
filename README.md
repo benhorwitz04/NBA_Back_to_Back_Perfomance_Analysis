@@ -16,7 +16,9 @@ I wanted to explore how the performance of the second game of a back-to-back con
 - **data**: Contains raw data files, including team statistics and game-by-game performance data.
 - **PostgreSQL:** The chosen database management system, ideal for handling the job posting data.
 - **python**: Python scripts for scraping data from nba.api.stats were executed on VS Code (an open-source, and highly customizable code editor developed by Microsoft)
-- **sql**: SQL scripts for creating and querying databases to provide answers and insights to our questions. *this was done with assistance from ChatGPT.
+- **sql**: SQL scripts for creating and querying databases to provide answers and insights to our questions.
+
+  *Completed with assistance of ChatGPT*
 - **results**: Final analysis, including summary tables and queries published here on GitHub.
 - **README.md**: The readme file you are currently reading!
 
