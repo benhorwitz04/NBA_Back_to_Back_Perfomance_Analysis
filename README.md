@@ -20,23 +20,136 @@ I wanted to explore how the performance of the second game of a back-to-back con
 - **results**: Final analysis, including summary tables and queries published here on GitHub.
 - **README.md**: The readme file you are currently reading!
 
-# Key Tables Created
+# The Analysis
 
-1. **team_season_averages**: A table containing the season averages for each team in various statistics (points, rebounds, turnovers, etc.).
+Each query for this project was aimed at breaking down the raw data in order to answer our questions. Here was my approach:
 
-2. **team_back_to_back_avgs**: A table showing the average performance for each team on the second day of back-to-back contests.
+
+1. **Team Season Averages**: I first had to organize the key statistics for each team, and calculate their averages throughout the season.
+
+```sql
+CREATE TABLE team_season_averages AS
+SELECT 
+    TEAM_NAME,
+    COUNT(*) AS games_played,
+    ROUND(AVG(FGM)::numeric, 2) AS avg_fgm,
+    ROUND(AVG(FGA)::numeric, 2) AS avg_fga,
+    ROUND(AVG(FG_PCT)::numeric, 3) AS avg_fg_pct,
+    ROUND(AVG(FG3M)::numeric, 2) AS avg_fg3m,
+    ROUND(AVG(FG3A)::numeric, 2) AS avg_fg3a,
+    ROUND(AVG(FG3_PCT)::numeric, 3) AS avg_fg3_pct,
+    ROUND(AVG(FTM)::numeric, 2) AS avg_ftm,
+    ROUND(AVG(FTA)::numeric, 2) AS avg_fta,
+    ROUND(AVG(FT_PCT)::numeric, 3) AS avg_ft_pct,
+    ROUND(AVG(OREB)::numeric, 2) AS avg_oreb,
+    ROUND(AVG(DREB)::numeric, 2) AS avg_dreb,
+    ROUND(AVG(REB)::numeric, 2) AS avg_reb,
+    ROUND(AVG(AST)::numeric, 2) AS avg_ast,
+    ROUND(AVG(STL)::numeric, 2) AS avg_stl,
+    ROUND(AVG(BLK)::numeric, 2) AS avg_blk,
+    ROUND(AVG(TOV)::numeric, 2) AS avg_tov,
+    ROUND(AVG(PF)::numeric, 2) AS avg_pf,
+    ROUND(AVG(PTS)::numeric, 2) AS avg_pts
+FROM team_game_stats
+GROUP BY TEAM_NAME;
+```
+
+Here we are able to create our 16 statistical categories for each team, and use the **ROUND(AVG)** to find the averages. This query was used to create a table containing all 29 teams that were analyzed.
+
+2. **Back to Back Season Averages**:
+
+The next phase of this process was to find our comparison of stats A.K.A the averages of all the back-to-back contests. With the help of Chat GPT, I was able to put together a query that could seperate the games based on the date they were played.
+
+The key part of the code that allows it to retrieve data from different dates (specifically consecutive dates) lies in the use of:
+
+The **LAG()** function: This function ensures that for each game, the system knows the date of the previous game for the same team. It creates a "shifted" view of the data, where you can access both the current game's statistics and the previous game's date.
+The **AGE()** function: This function calculates the interval between the current game date (game_date) and the previous game date (prev_game_date). The condition AGE(game_date, prev_game_date) = INTERVAL '1 day' ensures that only games played one day apart are included in the results. This helps to isolate the second game of a back-to-back.
+
+```sql
+CREATE TABLE team_back_to_back_averages AS
+WITH second_day_games AS (
+    SELECT 
+        t1.TEAM_NAME,
+        t1.game_date,
+        t1.FGM, t1.FGA, t1.FG_PCT, t1.FG3M, t1.FG3A, t1.FG3_PCT,
+        t1.FTM, t1.FTA, t1.FT_PCT, t1.OREB, t1.DREB, t1.REB,
+        t1.AST, t1.STL, t1.BLK, t1.TOV, t1.PF, t1.PTS,
+        -- Get the previous game's date for the same team using LAG()
+        LAG(t1.game_date) OVER (PARTITION BY t1.TEAM_NAME ORDER BY t1.game_date) AS prev_game_date
+    FROM team_game_stats t1
+)
+-- Now, filter out the second games of back-to-backs
+SELECT 
+    TEAM_NAME,
+    COUNT(*) AS games_played,
+    ROUND(AVG(FGM)::numeric, 2) AS avg_fgm,
+    ROUND(AVG(FGA)::numeric, 2) AS avg_fga,
+    ROUND(AVG(FG_PCT)::numeric, 3) AS avg_fg_pct,
+    ROUND(AVG(FG3M)::numeric, 2) AS avg_fg3m,
+    ROUND(AVG(FG3A)::numeric, 2) AS avg_fg3a,
+    ROUND(AVG(FG3_PCT)::numeric, 3) AS avg_fg3_pct,
+    ROUND(AVG(FTM)::numeric, 2) AS avg_ftm,
+    ROUND(AVG(FTA)::numeric, 2) AS avg_fta,
+    ROUND(AVG(FT_PCT)::numeric, 3) AS avg_ft_pct,
+    ROUND(AVG(OREB)::numeric, 2) AS avg_oreb,
+    ROUND(AVG(DREB)::numeric, 2) AS avg_dreb,
+    ROUND(AVG(REB)::numeric, 2) AS avg_reb,
+    ROUND(AVG(AST)::numeric, 2) AS avg_ast,
+    ROUND(AVG(STL)::numeric, 2) AS avg_stl,
+    ROUND(AVG(BLK)::numeric, 2) AS avg_blk,
+    ROUND(AVG(TOV)::numeric, 2) AS avg_tov,
+    ROUND(AVG(PF)::numeric, 2) AS avg_pf,
+    ROUND(AVG(PTS)::numeric, 2) AS avg_pts
+FROM second_day_games
+WHERE prev_game_date IS NOT NULL  -- Ensure there is a previous game to compare
+AND AGE(game_date, prev_game_date) = INTERVAL '1 day'  -- Use AGE() function to get the interval difference
+GROUP BY TEAM_NAME;
+```
 
    | team_name |	games_played |	avg_fgm |	avg_fga |	avg_fg_pct |	avg_tov |
-      |------| -------- | --------   | --------  | --------| -------- |
+   |------| -------- | --------   | --------  | --------| -------- |
    | Atlanta Hawks |	15 |	42.60 |	92.47 |	0.463 |	12.27 |
    | Boston Celtics |	14 |	45.36 |	91.36 |	0.497 |	10.14 |
    | Brooklyn Nets |	14 |	39.50 |	89.07 |	0.444 |	11.79 |
    | Charlotte Hornets |	15 |	41.40  |	87.07 |	0.477 |	12.00 |
    | Chicago Bulls |	14	 | 41.50 |	91.21 |	0.457 |	10.93 |
 
+*A table showing the average performance for teams on the second day of back-to-back contests.*
 
-3. **team_back_to_back_diffs**: A table showing us season averages minus back-to-back second-day averages.
+3. **Differences in Back-to-Back Games**: Getting closer to our goal, the next step focused on calculating the differences betweent the second day of a back-to-back contest against the overall avergaes of the team we found in step 1. The table we create from this query allow us to get a row for each of the 29 teams we are analyzing, along with the 16 stats we are focused on. An **INNER JOIN** is excuted here to ensure that the statistics are matched for the same team across both datasets.
 
+**Additional notes about the inforamtion that is produced:**
+For stats like avg_tov (turnovers, personal fouls), where a higher
+value is considered worse performance, the difference in the query
+(s.avg_tov - b.avg_tov) reflects that a negative difference indicates
+worse performance (more turnovers) on the second day of a back-to-back contest,
+and a positive difference indicates better performance (fewer turnovers).
+
+```sql
+CREATE TABLE team_back_to_back_diffs AS
+SELECT 
+    s.TEAM_NAME,
+    s.avg_fgm - b.avg_fgm AS fgm_diff,
+    s.avg_fga - b.avg_fga AS fga_diff,
+    s.avg_fg_pct - b.avg_fg_pct AS fg_pct_diff,
+    s.avg_fg3m - b.avg_fg3m AS fg3m_diff,
+    s.avg_fg3a - b.avg_fg3a AS fg3a_diff,
+    s.avg_fg3_pct - b.avg_fg3_pct AS fg3_pct_diff,
+    s.avg_ftm - b.avg_ftm AS ftm_diff,
+    s.avg_fta - b.avg_fta AS fta_diff,
+    s.avg_ft_pct - b.avg_ft_pct AS ft_pct_diff,
+    s.avg_oreb - b.avg_oreb AS oreb_diff,
+    s.avg_dreb - b.avg_dreb AS dreb_diff,
+    s.avg_reb - b.avg_reb AS reb_diff,
+    s.avg_ast - b.avg_ast AS ast_diff,
+    s.avg_stl - b.avg_stl AS stl_diff,
+    s.avg_blk - b.avg_blk AS blk_diff,
+    s.avg_tov - b.avg_tov AS tov_diff,
+    s.avg_pf - b.avg_pf AS pf_diff,
+    s.avg_pts - b.avg_pts AS pts_diff
+FROM team_season_averages s
+JOIN team_back_to_back_averages b ON s.TEAM_NAME = b.TEAM_NAME;
+```
    |team | fgm_diff |	fga_diff |	fg_pct_diff |	pts_diff	|tov_diff |
    |------| -------- | --------   | --------  | --------| -------- |
    | Atlanta Hawks | 0.44 |	0.02 |	0.003	| 2.66	| 0.49 |
@@ -45,15 +158,17 @@ I wanted to explore how the performance of the second game of a back-to-back con
    | Charlotte Hornets	| -1.39 |	-0.08 |	-0.016 |	-0.54 | 0.99 |
    | Chicago Bulls	| 0.55 |	-1.71 |	0.014 |	0.06 |	0.74 |
 
-5. **deviation__summary**: A table highlighting the largest deviations in performance across teams, focusing on both positive and negative performance changes.
+*A table showing us season averages minus back-to-back second-day averages.*
+
+4. **deviation__summary**: A table highlighting the largest deviations in performance across teams, focusing on both positive and negative performance changes.
 
 ![b2b_deviation_magnitude_plot_fixed](https://github.com/user-attachments/assets/32345c47-ece1-4d82-bc44-62fa149f6ee9)
 
-6. **percentage_summary**: A pie chart focusing on the top 7 categories based on percentage change.
+5. **percentage_summary**: A pie chart focusing on the top 7 categories based on percentage change.
  
 ![percentage_chart](https://github.com/user-attachments/assets/b6761b5e-4c25-4455-96df-d534b5fd3786)
 
-7. **best__preforming_teams**: A table showing the top 5 teams in the NBA with the best overall records on the second day of a back-to-back contest.
+6. **best__preforming_teams**: A table showing the top 5 teams in the NBA with the best overall records on the second day of a back-to-back contest.
 
    <img width="419" alt="image" src="https://github.com/user-attachments/assets/49c99120-a087-4d40-beaf-9657541a0e9e" />
 
