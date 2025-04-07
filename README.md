@@ -253,11 +253,11 @@ FROM (
 
 *A table highlighting the largest deviations in performance across teams, focusing on both positive and negative performance changes.*
 
-5. **percentage_summary**: Although we area able to get the devation of each category in the step above, I thought it would insightful to get the perctange change across the statistical categories as well. By getting the percentage, we can track which category had the highest change compared against it's season average.
+5. **Percentage Summary**: Although we area able to get the devation of each category in the step above, I thought it would insightful to get the perctange summary change across the statistical categories as well. By getting the percentage, we can track which category had the highest change compared against it's season average.
  
 ![percentage_chart](https://github.com/user-attachments/assets/b6761b5e-4c25-4455-96df-d534b5fd3786)
 
-A pie chart focusing on the top 7 categories based on percentage change.
+*A pie chart focusing of the top 7 categories based on percentage change.*
 
 6. **Best Preforming Teams**: Lastly, I wanted to see if there was a common theme amogst the better preforming teams and how they faired across the rest of the regular season. Similarly to step 2, the **LAG()** function was utilized to help sepearte back-to-back games from the rest of the season. The focus of this query was simply wins and losses accumulated.
 
@@ -315,16 +315,16 @@ WHERE prev_game_date IS NOT NULL
 # How to Use
 
 ### 1. **Set up the database:**
-The SQL scripts provided create the necessary tables to analyze the data. Run the scripts in your pgAdmin4 database to generate the required tables.
+The SQL scripts provided create the necessary tables to analyze the data. Run the scripts in your chosen database management system to generate the required tables.
 
 ### 2. **Data Source:**
 The data for this analysis comes from the official NBA stats and game logs, which are organized into team performance metrics such as points, turnovers, rebounds, etc.
 
 ### 3. **Running Queries:**
-The queries used in the analysis can be found in the in the folder. These queries will allow you to:
+The queries used in the analysis can be found in the in the folder (as well as this Readme File. These queries will allow you to:
 - Compile the season averages of specific game stats across the NBA.
 - Compare season averages to performance on the second day of back-to-back games.
-- Calculate the deviation for each statistic and find which teams show the most noticeable differences in performance.
+- Calculate the deviation and percentage change for each statistic and find which teams show the most noticeable differences in performance.
 
 # Insights & Analysis
 
@@ -343,3 +343,9 @@ The queries used in the analysis can be found in the in the folder. These querie
 
 - **Extended Analysis to Hobart Basketball**: Perform an analysis over multiple seasons to understand how trends might change for college program.
 - **Player-Level Insights**: Dive deeper into individual player performance on the second day of back-to-back games to identify outliers.
+
+# Conclusion
+
+Putting this project together was a lot of fun! It was my first original idea using what I’ve learned in SQL to really dive into a deeper statistical analysis. While I didn’t write every line of code entirely on my own, I enjoyed working through the challenges that came up—debugging queries and figuring out how to get to the right solution. I also made it a point to double-check all the calculations and outputs to ensure the analysis was as accurate as possible.
+
+What started off as a pretty daunting and overwhelming idea quickly turned into something that energized me. The more I pushed through, the more motivated I became to find answers to my questions and make the most of the tools and resources available. I’m genuinely excited to see what interesting question I come across next—and how I can use data analysis to explore it.
