@@ -54,7 +54,7 @@ FROM team_game_stats
 GROUP BY TEAM_NAME;
 ```
 
-Here we are able to create our 16 statistical categories for each team, and use the **ROUND(AVG)** to find the averages. This query was used to create a table containing all 29 teams that were analyzed.
+Here we are able to create our 18 statistical categories for each team, and use the **ROUND(AVG)** to find the averages. This query was used to create a table containing all 29 teams that were analyzed.
 
 2. **Back to Back Season Averages**:
 
@@ -116,7 +116,7 @@ GROUP BY TEAM_NAME;
 
 *A table showing the average performance for teams on the second day of back-to-back contests.*
 
-3. **Differences in Back-to-Back Games**: Getting closer to our goal, the next step focused on calculating the differences betweent the second day of a back-to-back contest against the overall avergaes of the team we found in step 1. The table we create from this query allow us to get a row for each of the 29 teams we are analyzing, along with the 16 stats we are focused on. An **INNER JOIN** is excuted here to ensure that the statistics are matched for the same team across both datasets.
+3. **Differences in Back-to-Back Games**: Getting closer to our goal, the next step focused on calculating the differences betweent the second day of a back-to-back contest against the overall avergaes of the team we found in step 1. The table we create from this query allow us to get a row for each of the 29 teams we are analyzing, along with the 18 stats we are focused on. An **INNER JOIN** is excuted here to ensure that the statistics are matched for the same team across both datasets.
 
 **Additional notes about the inforamtion that is produced:**
 For stats like avg_tov (turnovers, personal fouls), where a higher
@@ -160,13 +160,106 @@ JOIN team_back_to_back_averages b ON s.TEAM_NAME = b.TEAM_NAME;
 
 *A table showing us season averages minus back-to-back second-day averages.*
 
-4. **deviation__summary**: A table highlighting the largest deviations in performance across teams, focusing on both positive and negative performance changes.
+4. **Deviation Summary**: Starting our summary process, how do we start to break down and organize perfromance from the tables and data we created? First we need to clarify what is considered postive vs. a negative when comparing back-to-back contest against season avg. Within that, we need to make sure the data is accuratley judged as an improvement or decline. 
+
+**Stat Classification:** We need to ensure that the values are easy to interperate, and also account for certain categories (turnovers & fouls) that are considered negative, the more you commit them. In simplest terms:
+* Positive value → teams performed better on second day.
+* Negative value → teams performed worse on second day.
+
+**One of the main fucntions being utilized here is:**
+**UNION ALL** - Combines results from multiple SELECT statements into one result set. This was we can start to analyze the changes as either "better" in second game, or "worse".
+
+```sql
+CREATE TABLE team_back_to_back_avg_diffs_summary AS
+WITH diffs AS (
+    SELECT
+        ROUND(AVG(-fgm_diff), 2) AS fgm,
+        ROUND(AVG(-fga_diff), 2) AS fga,
+        ROUND(AVG(-fg_pct_diff), 3) AS fg_pct,
+        ROUND(AVG(-fg3m_diff), 2) AS fg3m,
+        ROUND(AVG(-fg3a_diff), 2) AS fg3a,
+        ROUND(AVG(-fg3_pct_diff), 3) AS fg3_pct,
+        ROUND(AVG(-ftm_diff), 2) AS ftm,
+        ROUND(AVG(-fta_diff), 2) AS fta,
+        ROUND(AVG(-ft_pct_diff), 3) AS ft_pct,
+        ROUND(AVG(-oreb_diff), 2) AS oreb,
+        ROUND(AVG(-dreb_diff), 2) AS dreb,
+        ROUND(AVG(-reb_diff), 2) AS reb,
+        ROUND(AVG(-ast_diff), 2) AS ast,
+        ROUND(AVG(-stl_diff), 2) AS stl,
+        ROUND(AVG(-blk_diff), 2) AS blk,
+        ROUND(AVG(-tov_diff), 2) AS tov,
+        ROUND(AVG(-pf_diff), 2) AS pf,
+        ROUND(AVG(-pts_diff), 2) AS pts
+    FROM team_back_to_back_diffs
+)
+
+SELECT
+    stat,
+    avg_diff,
+    CASE
+        WHEN stat IN ('tov', 'pf') THEN  -- Special handling for TOV and PF
+            CASE
+                WHEN avg_diff < 0 THEN 'Better'  -- Lower turnovers/fouls are better
+                WHEN avg_diff > 0 THEN 'Worse'  -- Higher turnovers/fouls are worse
+                ELSE 'No Change'
+            END
+        ELSE  -- General case for other statistics
+            CASE
+                WHEN avg_diff > 0 THEN 'Better'
+                WHEN avg_diff < 0 THEN 'Worse'
+                ELSE 'No Change'
+            END
+    END AS impact
+FROM (
+    SELECT 'fgm' AS stat, fgm AS avg_diff FROM diffs
+    UNION ALL
+    SELECT 'fga', fga FROM diffs
+    UNION ALL
+    SELECT 'fg_pct', fg_pct FROM diffs
+    UNION ALL
+    SELECT 'fg3m', fg3m FROM diffs
+    UNION ALL
+    SELECT 'fg3a', fg3a FROM diffs
+    UNION ALL
+    SELECT 'fg3_pct', fg3_pct FROM diffs
+    UNION ALL
+    SELECT 'ftm', ftm FROM diffs
+    UNION ALL
+    SELECT 'fta', fta FROM diffs
+    UNION ALL
+    SELECT 'ft_pct', ft_pct FROM diffs
+    UNION ALL
+    SELECT 'oreb', oreb FROM diffs
+    UNION ALL
+    SELECT 'dreb', dreb FROM diffs
+    UNION ALL
+    SELECT 'reb', reb FROM diffs
+    UNION ALL
+    SELECT 'ast', ast FROM diffs
+    UNION ALL
+    SELECT 'stl', stl FROM diffs
+    UNION ALL
+    SELECT 'blk', blk FROM diffs
+    UNION ALL
+    SELECT 'tov', tov FROM diffs
+    UNION ALL
+    SELECT 'pf', pf FROM diffs
+    UNION ALL
+    SELECT 'pts', pts FROM diffs
+) AS summary;
+```
 
 ![b2b_deviation_magnitude_plot_fixed](https://github.com/user-attachments/assets/32345c47-ece1-4d82-bc44-62fa149f6ee9)
 
-5. **percentage_summary**: A pie chart focusing on the top 7 categories based on percentage change.
+*A table highlighting the largest deviations in performance across teams, focusing on both positive and negative performance changes.*
+
+
+5. **percentage_summary**: Although we area able to get the devation of each category in the step above, I thought it would insightful to get the perctange change across the statistical categories as well. By getting the percentage, we can track which category had the highest change compared against it's season average.
  
 ![percentage_chart](https://github.com/user-attachments/assets/b6761b5e-4c25-4455-96df-d534b5fd3786)
+
+A pie chart focusing on the top 7 categories based on percentage change.
 
 6. **best__preforming_teams**: A table showing the top 5 teams in the NBA with the best overall records on the second day of a back-to-back contest.
 
