@@ -344,7 +344,7 @@ The queries used in the analysis can be found in the in the folder (as well as t
 - **Extended Analysis to Hobart Basketball**: Perform an analysis over multiple seasons to understand how trends might change for college program.
 - **Player-Level Insights**: Dive deeper into individual player performance on the second day of back-to-back games to identify outliers.
 
-# Conclusion
+# Conclusion & Closing Thoughts
 
 Putting this project together was a lot of fun! It was my first original idea using what I’ve learned in SQL to really dive into a deeper statistical analysis. While I didn’t write every line of code entirely on my own, I enjoyed working through the challenges that came up—debugging queries and figuring out how to get to the right solution. I also made it a point to double-check all the calculations and outputs to ensure the analysis was as accurate as possible.
 
