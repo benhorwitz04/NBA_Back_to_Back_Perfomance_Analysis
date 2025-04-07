@@ -28,15 +28,20 @@ I wanted to explore how the performance of the second game of a back-to-back con
 
 3. **team_back_to_back_diffs**: A table showing us season averages minus back-to-back second-day averages.
 
-   <img width="357" alt="image" src="https://github.com/user-attachments/assets/e61a3c8e-6027-459d-94ff-40268e618384" />
+   |team | fgm_diff |	fga_diff |	fg_pct_diff |	pts_diff	|tov_diff |
+   |------| -------- | --------   | --------  | --------| -------- |
+   | Atlanta Hawk | 0.44 |	0.02 |	0.003	| 2.66	| 0.49 |
+   |Boston Celtics | -1.45 |	-1.16 |	-0.009 |	-2.86 |	1.13 |
+   | Brooklyn Nets | 1.16 |	0.04 |	0.013 |	3.87 |	0.53 |
+   | Charlotte Hornets	| -1.39 |	-0.08 |	-0.016 |	-0.54 | 0.99 |
+   | Chicago Bulls	| 0.55 |	-1.71 |	0.014 |	0.06 |	0.74 |
 
-4. **deviation__summary**: A table highlighting the largest deviations in performance across teams, focusing on both positive and negative performance changes.
+6. **deviation__summary**: A table highlighting the largest deviations in performance across teams, focusing on both positive and negative performance changes.
 
-![b2b_deviation_magnitude_plot_fixed](https://github.com/user-attachments/assets/3bc9897d-2f44-49a7-8218-25c1bb6e201f)
+![b2b_deviation_magnitude_plot_fixed](https://github.com/user-attachments/assets/32345c47-ece1-4d82-bc44-62fa149f6ee9)
 
 5. **percentage_summary**: A pie chart focusing on the top 7 categories based on percentage change.
 
-![b2b_deviation_magnitude_plot_fixed](https://github.com/user-attachments/assets/365661c0-8d9b-4ad7-a673-dc572c71fe52)
 
 6. **best__preforming_teams**: A table showing the top 5 teams in the NBA with the best overall records on the second day of a back-to-back contest.
 
