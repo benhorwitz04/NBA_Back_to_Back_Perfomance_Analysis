@@ -11,7 +11,7 @@ This project was initially constructed as a way to dive deeper into the world of
 I wanted to explore how the performance of the second game of a back-to-back contest compares to the rest of the season averages. The NBA presents a much larger scale of data to pull from and provides a glimpse into how team performance is affected by scheduling. I used data from the 2023-2024 season, as it is the most recently completed NBA regular season. I did not include playoff games, and focused on the typical 82 regular game season. 
 *Pleaese note that not all teams have the same amount of back-to-back games scheduled duirng there season.
 
-# Tools I Used & Project Structure
+# Tools I Used
 
 - **data**: Contains raw data files, including team statistics and game-by-game performance data.
 - **PostgreSQL:** The chosen database management system, ideal for handling the job posting data.
@@ -21,6 +21,20 @@ I wanted to explore how the performance of the second game of a back-to-back con
   *Completed with assistance of ChatGPT*
 - **results**: Final analysis, including summary tables and queries published here on GitHub.
 - **README.md**: The readme file you are currently reading!
+
+# Project Structure
+
+### 1. **Data Source:**
+The data for this analysis comes from the official NBA stats and game logs, which are organized into team performance metrics such as points, turnovers, rebounds, etc.
+
+### 2. **Set up the database:**
+The SQL scripts provided create the necessary tables to analyze the data. Run the scripts in your chosen database management system to generate the required tables.
+
+### 3. **Running Queries:**
+The queries used in the analysis can be found in the in the folder (as well as this Readme File. These queries will allow you to:
+- Compile the season averages of specific game stats across the NBA.
+- Compare season averages to performance on the second day of back-to-back games.
+- Calculate the deviation and percentage change for each statistic and find which teams show the most noticeable differences in performance.
 
 # The Analysis
 
@@ -313,20 +327,6 @@ WHERE prev_game_date IS NOT NULL
 - **Statistical Analysis**: The performance data for each team was compared to their season averages, with a focus on stats that are considered **positive when higher** (e.g., points scored, field goal percentage) and **negative when higher** (e.g., turnovers, personal fouls).
 - **Deviation Calculation**: The difference between a team’s performance on the second day of back-to-back games and their season average was computed to determine how each team’s performance changes under fatigue/scheduling.
 - **Key Findings**: The analysis identified which stats are most affected by fatigue and how different teams generally respond to the demands of back-to-back scheduling.
-
-# How to Use
-
-### 1. **Set up the database:**
-The SQL scripts provided create the necessary tables to analyze the data. Run the scripts in your chosen database management system to generate the required tables.
-
-### 2. **Data Source:**
-The data for this analysis comes from the official NBA stats and game logs, which are organized into team performance metrics such as points, turnovers, rebounds, etc.
-
-### 3. **Running Queries:**
-The queries used in the analysis can be found in the in the folder (as well as this Readme File. These queries will allow you to:
-- Compile the season averages of specific game stats across the NBA.
-- Compare season averages to performance on the second day of back-to-back games.
-- Calculate the deviation and percentage change for each statistic and find which teams show the most noticeable differences in performance.
 
 # Insights & Analysis
 
